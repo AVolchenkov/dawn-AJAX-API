@@ -1,0 +1,117 @@
+<div
+  class="product-recommendations"
+  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{section.settings.products_per_row}}"
+>
+  {% if recommendations.performed %}
+    {% if recommendations.products_count > 0 %}
+      <div class="static-product-row">
+        <div class="product-row">
+          <div class="page-width">
+            <div class="product-row__content">
+              <div class="product-row__text-item">
+                {% if section.settings.title != blank %}
+                  <h2 class="product-row__title">{{ section.settings.title }}</h2>
+                {% endif %}
+                {% if section.settings.text != blank %}
+                  <div class="product-row__text-box">
+                    {{ section.settings.text }}
+                  </div>
+                {% endif %}
+              </div>
+              <div class="product-row__gallery-items">
+                {% for product in recommendations.products %}
+                  <div class="product-row__gallery-item">
+                    <a href="{{ product.url }}">
+                      <img
+                        srcset="{%- if product.featured_image.width >= 165 -%}{{ product.featured_image | image_url: width: 165 }} 165w,{%- endif -%}
+                          {%- if product.featured_image.width >= 360 -%}{{ product.featured_image | image_url: width: 360 }} 360w,{%- endif -%}
+                          {%- if product.featured_image.width >= 533 -%}{{ product.featured_image | image_url: width: 533 }} 533w,{%- endif -%}
+                          {%- if product.featured_image.width >= 720 -%}{{ product.featured_image | image_url: width: 720 }} 720w,{%- endif -%}
+                          {%- if product.featured_image.width >= 940 -%}{{ product.featured_image | image_url: width: 940 }} 940w,{%- endif -%}
+                          {%- if product.featured_image.width >= 1066 -%}{{ product.featured_image | image_url: width: 1066 }} 1066w,{%- endif -%}
+                          {{ product.featured_image | image_url }} {{ product.featured_image.width }}w"
+                        src="{{ product.featured_image | image_url: width: 533 }}"
+                        sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                        alt="{{ product.featured_image.alt | escape }}"
+                        class="motion-reduce"
+                        {% unless lazy_load == false %}loading="lazy"{% endunless %}
+                        width="{{ product.featured_image.width }}"
+                        height="{{ product.featured_image.height }}"
+                      >
+                    </a>
+                    <div>{{ product.title }}</div>
+                    <div>{{ product.price | money }}</div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
+</div>
+
+{% javascript %}
+  const handleIntersection = (entries, observer) => {
+    if (!entries[0].isIntersecting) return;
+
+    observer.unobserve(productRecommendationsSection);
+
+    const url = productRecommendationsSection.dataset.url;
+
+    fetch(url)
+      .then(response => response.text())
+      .then(text => {
+        const html = document.createElement('div');
+        html.innerHTML = text;
+        const recommendations = html.querySelector('.product-recommendations');
+
+        if (recommendations && recommendations.innerHTML.trim().length) {
+          productRecommendationsSection.innerHTML = recommendations.innerHTML;
+        }})
+      .catch(e => {
+        console.error(e);
+      });
+    };
+
+  const productRecommendationsSection = document.querySelector('.product-recommendations');
+  const observer = new IntersectionObserver(handleIntersection, {rootMargin: '0px 0px 200px 0px'});
+  observer.observe(productRecommendationsSection);
+
+{% endjavascript %}
+
+{% schema %}
+  {
+    "name": "Product row",
+    "tag": "section",
+    "class": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "A selection of productivity tools"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text"
+      },
+      {
+        "type": "range",
+        "id": "products_per_row",
+        "label": "Products per row",
+        "min": 2,
+        "max": 20,
+        "step": 1,
+        "default": 5
+      }
+    ],
+    "presets": [
+      {
+        "name": "Product row"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,13 @@
+.product-row__gallery-items {
+  display: flex;
+}
+
+.product-row__gallery-item {
+  width: 20%;
+  padding: 0 10px;
+}
+
+.product-row__gallery-item img {
+  width: 100%;
+  height: auto;
+}
