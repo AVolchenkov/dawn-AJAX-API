@@ -1,0 +1,26 @@
+<div class="section-find-product section--{{ section.id }}" style="padding: 0 40px 40px;">
+  <form action="#" style="margin: 0 0 30px;">
+    <input type="text" class="find-by-sku" id="FindBySku">
+    <button type="submit" class="button find-by-sku-submit">Find</button>
+  </form>
+  <div class="product-search">
+    <img src="" alt="" class="product-search__image" style="max-width: 225px;">
+    <div class="product-search__title"></div>
+    <div class="product-search__description"></div>
+    <div class="product-search__price"></div>
+    <div class="product-search__error"></div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Find product",
+    "tag": "section",
+    "class": "section",
+    "presets": [
+      {
+        "name": "Find product"
+      }
+    ]
+  }
+{% endschema %}

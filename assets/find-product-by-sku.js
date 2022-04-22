@@ -1,37 +1,24 @@
-<form action="#" style="margin: 0 0 30px;">
-  <input type="text" id="FindBySku">
-  <button type="submit" class="button find-by-sku-submit">Find</button>
-</form>
-<div class="product-search">
-  <img src="" alt="" class="product-search__image" style="max-width: 225px;">
-  <div class="product-search__title"></div>
-  <div class="product-search__description"></div>
-  <div class="product-search__price"></div>
-  <div class="product-search__error"></div>
-</div>
+const button = document.querySelectorAll('.find-by-sku-submit');
 
-<script>
-  const button = document.querySelector('.find-by-sku-submit');
-  const title = document.querySelector('.product-search__title');
-  const description = document.querySelector('.product-search__description');
-  const price = document.querySelector('.product-search__price');
-  const image = document.querySelector('.product-search__image');
-  const error = document.querySelector('.product-search__error');
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-  button.addEventListener('click', function (e) {
+button.forEach(elem => {
+  elem.addEventListener('click', function (e) {
     e.preventDefault();
-    const findValue = document.querySelector('#FindBySku').value
+    const findValue = elem.closest(".section-find-product").querySelector('.find-by-sku').value;
+    const title = elem.closest(".section-find-product").querySelector('.product-search__title');
+    const description = elem.closest(".section-find-product").querySelector('.product-search__description');
+    const price = elem.closest(".section-find-product").querySelector('.product-search__price');
+    const image = elem.closest(".section-find-product").querySelector('.product-search__image');
+    const error = elem.closest(".section-find-product").querySelector('.product-search__error');
 
     fetch(window.Shopify.routes.root + 'products.json')
       .then(response => {
         return response.json()
       })
       .then(data => {
-        let products = data;
         let searchItem = findValue;
 
         function findBySku(acc, el) {
@@ -65,4 +52,4 @@
         console.error('Error:', error);
       });
   })
-</script>
+})
