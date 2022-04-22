@@ -522,9 +522,6 @@
       </div>
     </modal-dialog>
   {%- endfor -%}
-  {% render 'adding-product-to-cart', id: product.id, variant_id: product.variants[0].id %}
-  {% render 'change-quantity-in-cart', id: product.id, variant_id: product.variants[0].id %}
-  {% render 'remove-product-from-cart', id: product.id, variant_id: product.variants[0].id %}
 </section>
 
 {% javascript %}
@@ -569,6 +566,7 @@
 {% endif %}
 
 <script>
+  var variantIdGlobal = {{ product.variants[0].id }}
   document.addEventListener('DOMContentLoaded', function() {
     function isIE() {
       const ua = window.navigator.userAgent;

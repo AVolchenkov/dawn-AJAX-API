@@ -2862,3 +2862,8 @@ details-disclosure > details {
     }
   }
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}

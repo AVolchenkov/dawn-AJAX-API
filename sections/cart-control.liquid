@@ -1,0 +1,18 @@
+<div class="cart-control">
+  {% render 'adding-product-to-cart', id: product.id, section-id: section.id, variant_id: product.variants[0].id %}
+  {% render 'change-quantity-in-cart', id: product.id, section-id: section.id, variant_id: product.variants[0].id %}
+  {% render 'remove-product-from-cart', id: product.id, section-id: section.id, variant_id: product.variants[0].id %}
+</div>
+
+{% schema %}
+  {
+    "name": "Cart control",
+    "tag": "section",
+    "class": "section",
+    "presets": [
+      {
+        "name": "Cart control"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,46 +1,4 @@
-<div style="margin: 0 0 20px;">
-  <input type="number" id="newItemValue" value="1" >
-  <button type="button" class="button" id="changeQuantity">Change quantity</button>
-  {{ variant_id }}
+<div style="margin: 0 0 20px;" class="changeQuantity">
+  <label for="newItemValue">Quantity in cart</label>
+  <input type="number" id="newItemValue" value="">
 </div>
-
-<script>
-  const changeQuantity = document.querySelector('#changeQuantity');
-
-  changeQuantity.addEventListener('click', function(e) {
-    e.preventDefault()
-    const newItemValue = document.querySelector('#newItemValue').value
-    let variantId
-    const url = window.location.href
-    const variantIdFromUrl = url.split("?variant=")[1]
-
-    if(variantIdFromUrl) {
-      variantId = variantIdFromUrl
-    } else {
-      variantId = {{ variant_id }};
-      variantId = variantId.toString()
-    }
-
-    let formData = {
-      'id': variantId,
-      'quantity': newItemValue
-    };
-
-    fetch(window.Shopify.routes.root + 'cart/change.js', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(response => {
-        location.reload()
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-    });
-  })
-</script>
