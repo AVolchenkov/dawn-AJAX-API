@@ -46,6 +46,7 @@ button.forEach(elem => {
           description.innerHTML = parent.body_html;
           price.innerHTML = element.price + ' zl PLN';
           image.setAttribute("src", parent.images[0].src);
+          error.innerHTML = ""
         }
       })
       .catch((error) => {
