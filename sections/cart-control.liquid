@@ -1,7 +1,11 @@
 <div class="cart-control">
+  <span class="product-form__quantity-success-message hide">Product quantity has been changed</span>
+  <span class="product-form__error-message hide">Maximum available quantity</span>
+  <span class="product-form__success-message hide">Product has been added to cart</span>
   {% render 'adding-product-to-cart', id: product.id, section-id: section.id, variant_id: product.variants[0].id %}
   {% render 'change-quantity-in-cart', id: product.id, section-id: section.id, variant_id: product.variants[0].id %}
   {% render 'remove-product-from-cart', id: product.id, section-id: section.id, variant_id: product.variants[0].id %}
+  <span class="product-form__remove-message hide">Product has been removed</span>
 </div>
 
 {% schema %}

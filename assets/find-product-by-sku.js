@@ -14,43 +14,24 @@ button.forEach(elem => {
     const image = elem.closest(".section-find-product").querySelector('.product-search__image');
     const error = elem.closest(".section-find-product").querySelector('.product-search__error');
 
-    fetch(window.Shopify.routes.root + 'products.json')
+    fetch(window.Shopify.routes.root + 'products/' + findValue + '.js')
       .then(response => {
         return response.json()
       })
       .then(data => {
-        let searchItem = findValue;
-
-        function findBySku(acc, el) {
-          if (el.sku === searchItem) return el;
-          if (el.variants) return el.variants.reduce(findBySku, acc);
-          return acc;
-        }
-        let element = data.products.reduce(findBySku, null)
-
-        function findParent(acc, el) {
-          if (el.variants && el.variants.some(child => child === element)) return el;
-          if (el.variants) return el.variants.reduce(findParent, acc);
-          return acc;
-        }
-        let parent = data.products.reduce(findParent, null);
-
-        if (parent === null) {
-          error.innerHTML = "Incorrect product code. Please try again";
-          title.innerHTML = "";
-          description.innerHTML = "";
-          price.innerHTML = "";
-          image.setAttribute("src", "");
-        } else {
-          title.innerHTML = capitalizeFirstLetter(parent.title);
-          description.innerHTML = parent.body_html;
-          price.innerHTML = element.price + ' zl PLN';
-          image.setAttribute("src", parent.images[0].src);
-          error.innerHTML = ""
-        }
+        title.innerHTML = capitalizeFirstLetter(data.title);
+        description.innerHTML = data.body_html;
+        price.innerHTML = (data.price / 100).toFixed(2) + ' zl PLN';
+        image.setAttribute("src", data.images[0]);
+        error.innerHTML = ""
       })
-      .catch((error) => {
-        console.error('Error:', error);
+      .catch((err) => {
+        console.error('Error:', err);
+        error.innerHTML = "Incorrect product code. Please try again";
+        title.innerHTML = "";
+        description.innerHTML = "";
+        price.innerHTML = "";
+        image.setAttribute("src", "");
       });
   })
 })

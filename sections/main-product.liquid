@@ -567,6 +567,8 @@
 
 <script>
   var variantIdGlobal = {{ product.variants[0].id }}
+  var variantInventoryManagement = "{{ product.selected_or_first_available_variant.inventory_management }}"
+  var variantInventoryQuantity = {{ product.selected_or_first_available_variant.inventory_quantity }}
   document.addEventListener('DOMContentLoaded', function() {
     function isIE() {
       const ua = window.navigator.userAgent;

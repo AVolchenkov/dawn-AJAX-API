@@ -2867,3 +2867,38 @@ details-disclosure > details {
   pointer-events: none;
   opacity: 0.6;
 }
+
+.cart-control {
+  position: relative;
+  padding: 40px;
+}
+
+.product-form__error-message,
+.product-form__success-message,
+.product-form__quantity-success-message {
+  position: absolute;
+  left: 40px;
+  top: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.product-form__error-message {
+  color: rgb(237, 19, 19);
+}
+
+.product-form__success-message,
+.product-form__quantity-success-message {
+  color: rgb(54, 194, 15);
+}
+
+.product-form__remove-message {
+  position: absolute;
+  left: 40px;
+  bottom: 0;
+  color: rgb(54, 194, 15);
+  transition: opacity 0.3s ease-in-out;
+}
+
+.hide {
+  opacity: 0;
+}
