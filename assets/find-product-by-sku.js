@@ -20,7 +20,7 @@ button.forEach(elem => {
       })
       .then(data => {
         title.innerHTML = capitalizeFirstLetter(data.title);
-        description.innerHTML = data.body_html;
+        description.innerHTML = data.description;
         price.innerHTML = (data.price / 100).toFixed(2) + ' zl PLN';
         image.setAttribute("src", data.images[0]);
         error.innerHTML = ""
